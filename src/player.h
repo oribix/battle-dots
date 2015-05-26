@@ -6,8 +6,8 @@ enum condition {normal, stunned, rooted};
 
 struct player
 {
-  unsigned char hp; //health bar
-  condition cond;   //player condition
-}
+  unsigned char hp;       /* health bar */
+  enum condition cond;    /* player condition */
+};
 
 #endif
