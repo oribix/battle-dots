@@ -2,23 +2,14 @@
 #define FIELD_H
 
 #include "player.h"
-//#include "attack.h"
 
-enum panel_status {normal};
+//enum panel_status {normal};
+enum panel_owner {player1, player2};
 
 struct panel
 {
-  player * owner;
-  panel_status status;
-  //attack attack;
-}
-
-
-struct field
-{
-  
-
-
+  panel_owner owner;
+  //panel_status status;
 }
 
 #endif
