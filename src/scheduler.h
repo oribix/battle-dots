@@ -7,17 +7,17 @@
 #ifndef SCHEDULER_H
 #define SCHEDULER_H
 
-#define TASKSGCD  400
-#define TASKSNUM 2
+#define TASKSGCD 2
+#define TASKSNUM 6
 
 //Struct for Tasks represent a running process in our simple real-time operating system
 typedef struct task{
-	// Tasks should have members that include: state, period,
-	//a measurement of elapsed time, and a function pointer.
-	int           state; 		    //Task's current state
-	unsigned long period; 		  //Task period
-	unsigned long elapsedTime; 	//Time elapsed since last task tick
-	int (*TickFct)(int); 		    //Task tick function
+  // Tasks should have members that include: state, period,
+  //a measurement of elapsed time, and a function pointer.
+  int           state;        //Task's current state
+  unsigned long period;       //Task period
+  unsigned long elapsedTime;  //Time elapsed since last task tick
+  int (*TickFct)(int);        //Task tick function
 } task;
 
 task tasks[TASKSNUM];
@@ -28,5 +28,9 @@ unsigned char tasks_init();
 //tick function prototypes
 int TickFct_GetInput(int state);
 int TickFct_Example(int state);
+int TickFct_printMatrix(int state);
+int TickFct_updateMatrix(int state);
+int TickFct_movePlayer1(int state);
+int TickFct_movePlayer2(int state);
 
 #endif //SCHEDULER_H

@@ -13,7 +13,7 @@
 //Returns: The new value of the PORTx
 unsigned char SetBit(unsigned char pin, unsigned char number, unsigned char bin_value) 
 {
-	return (bin_value ? pin | (0x01 << number) : pin & ~(0x01 << number));
+  return (bin_value ? pin | (0x01 << number) : pin & ~(0x01 << number));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -22,7 +22,7 @@ unsigned char SetBit(unsigned char pin, unsigned char number, unsigned char bin_
 //Returns: The value of the PINx
 unsigned char GetBit(unsigned char port, unsigned char number) 
 {
-	return ( port & (0x01 << number) );
+  return ( port & (0x01 << number) );
 }
 
 #endif //BIT_H
