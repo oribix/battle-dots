@@ -8,7 +8,9 @@
 #define SCHEDULER_H
 
 #define TASKSGCD 2
-#define TASKSNUM 6
+#define TASKSNUM 11
+
+#include "attack.h"
 
 //Struct for Tasks represent a running process in our simple real-time operating system
 typedef struct task{
@@ -30,7 +32,16 @@ int TickFct_GetInput(int state);
 int TickFct_Example(int state);
 int TickFct_printMatrix(int state);
 int TickFct_updateMatrix(int state);
+
 int TickFct_movePlayer1(int state);
 int TickFct_movePlayer2(int state);
+
+int TickFct_updateShockwave(int state);
+int TickFct_p1ShockWave(int state);
+int TickFct_p2ShockWave(int state);
+
+int TickFct_checkCollisions(int state);
+
+void TickFct_reset();
 
 #endif //SCHEDULER_H

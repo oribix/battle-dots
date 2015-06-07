@@ -5,24 +5,24 @@ char init_players() {
   player1.hp = 80;
   player1.xpos = 1; // 1
   player1.ypos = 1; // 1
-  player1.ctrl_en = true;
+  player1.move_en = true;
   
   player2.hp = 80;
   player2.xpos = 4; // 1
   player2.ypos = 1; // 1
-  player2.ctrl_en = true;
+  player2.move_en = true;
   
   return 0;
 }
 
 void move_player1() {
   //do nothing if control is disabled
-  if (!player1.ctrl_en) return;
+  if (!player1.move_en) return;
   
   unsigned char xpos = player1.xpos;
   unsigned char ypos = player1.ypos;
   
-  if (player1.ctrl_en) {
+  if (player1.move_en) {
     
     switch (p1_input & SNES_DPAD) {
       case SNES_UP:
@@ -49,7 +49,7 @@ void move_player1() {
      sit across from you*/
 void move_player2() {
   //do nothing if control is disabled
-  if (!player2.ctrl_en) return;
+  if (!player2.move_en) return;
   
   unsigned char xpos = player2.xpos;
   unsigned char ypos = player2.ypos;

@@ -2,6 +2,7 @@
 #include <avr/interrupt.h>
 #include <stdio.h>
 #include "io.h"
+#include "attack.h"
 
 #define SET_BIT(p,i) ((p) |= (1 << (i)))
 #define CLR_BIT(p,i) ((p) &= ~(1 << (i)))
@@ -179,9 +180,10 @@ unsigned char get_ypos( unsigned char pos) {
 }
 
 void updateMatrix() {
-  //clean matrix
   cleanMatrix();
-  updateField(/*field*/);
+  updateField();
+  readAttacks(shockwave1);
+  readAttacks(shockwave2);
   updatePlayers();
   updateTimerGuage();
   return;
@@ -251,6 +253,30 @@ void updatePlayers() {
   red  [ypos]     &= ~(0000007 << xpos);
   red  [ypos + 1] &= ~(0000002 << xpos);
   
+  return;
+}
+
+unsigned short fieldrToMatrix(unsigned char fieldrow) {
+  unsigned short mRow = 0;
+  unsigned char i, filter;
+  filter = 0x01;
+  for (i = 0; i < 6; i++) {
+    if (fieldrow & filter) mRow |= (0x0001 << get_xpos(i));
+    filter <<= 1;
+  }
+  return mRow;
+}
+
+void readAttacks(unsigned char * fieldv) {
+  unsigned char ypos, i;
+  unsigned short mRow;
+  for (i = 0; i < 3; i++) {
+    ypos = get_ypos(i);
+    mRow = fieldrToMatrix(fieldv[i]);
+    
+    green[ypos] |= mRow;
+    red[ypos] |= mRow; 
+  }
   return;
 }
 

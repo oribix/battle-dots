@@ -43,10 +43,13 @@
   void updateMatrix ();
   void updatePlayers();
   void updateField();
-  void updateTimerGuage ();
+  void readAttacks(unsigned char *fieldv);
+  void updateTimerGuage();
   void cleanMatrix();
   void transmit_data(unsigned short redData,
                      unsigned short greenData);
+
+unsigned short fieldrToMatrix(unsigned char fieldrow);
 
 //timer delay
   void delay_ms(int miliSec);

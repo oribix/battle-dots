@@ -32,6 +32,30 @@ unsigned char tasks_init() {
   tasks[i].state        = -1;
   ++i;
   
+  tasks[i].TickFct      = &TickFct_p1ShockWave;
+  tasks[i].period       = 16;
+  tasks[i].elapsedTime  = tasks[i].period;
+  tasks[i].state        = -1;
+  ++i;
+  
+  tasks[i].TickFct      = &TickFct_p2ShockWave;
+  tasks[i].period       = 16;
+  tasks[i].elapsedTime  = tasks[i].period;
+  tasks[i].state        = -1;
+  ++i;
+  
+  tasks[i].TickFct      = &TickFct_updateShockwave;
+  tasks[i].period       = 256;
+  tasks[i].elapsedTime  = tasks[i].period;
+  tasks[i].state        = -1;
+  ++i;
+  
+  tasks[i].TickFct      = &TickFct_checkCollisions;
+  tasks[i].period       = 16;
+  tasks[i].elapsedTime  = tasks[i].period;
+  tasks[i].state        = -1;
+  ++i;
+  
   tasks[i].TickFct      = &TickFct_updateMatrix;
   tasks[i].period       = 16;
   tasks[i].elapsedTime  = tasks[i].period;
@@ -40,6 +64,12 @@ unsigned char tasks_init() {
   
   tasks[i].TickFct      = &TickFct_printMatrix;
   tasks[i].period       = 2;
+  tasks[i].elapsedTime  = tasks[i].period;
+  tasks[i].state        = -1;
+  ++i;
+  
+  tasks[i].TickFct      = &TickFct_reset;
+  tasks[i].period       = 200;
   tasks[i].elapsedTime  = tasks[i].period;
   tasks[i].state        = -1;
   ++i;
@@ -256,6 +286,7 @@ int TickFct_movePlayer2(int state) {
   switch(state) { //Transitions
     case -1:
       state = SM6_init;
+      prev = 0;
       break;
     
     case SM6_init:
@@ -297,4 +328,215 @@ int TickFct_movePlayer2(int state) {
 
   SM6_State = state;
   return state;
+}
+
+//updates the shockwave 2d vector
+enum SM7_States { SM7_init, SM7_wait} SM7_State;
+int TickFct_updateShockwave(int state) {
+  /*VARIABLES MUST BE DECLARED STATIC*/
+  /*e.g., static int x = 0;*/
+  
+  switch(state) { //Transitions
+    case -1:
+    state = SM7_init;
+    break;
+    
+    case SM7_init:
+      if (1) {
+        state = SM7_wait;
+      }
+      break;
+    
+    case SM7_wait:
+      if (1) {
+        state = SM7_wait;
+      }
+      break;
+    
+    default:
+      state = -1;
+      break;
+  } // Transitions
+
+  switch(state) { // State actions
+    case SM7_init:
+      init_shockwave();
+      break;
+    
+    case SM7_wait:
+      update_hprojectile(shockwave1, RIGHT); //moves right
+      update_hprojectile(shockwave2, LEFT); //moves left
+      break;
+    
+    default:
+      break;
+  } // State actions
+
+  SM7_State = state;
+  return state;
+}
+
+//Checks for collisions with attacks
+enum SM8_States { SM8_init, SM8_wait} SM8_State;
+int TickFct_checkCollisions(int state) {
+  /*VARIABLES MUST BE DECLARED STATIC*/
+  /*e.g., static int x = 0;*/
+  
+  switch(state) { //Transitions
+    case -1:
+    state = SM8_init;
+    break;
+    
+    case SM8_init:
+    if (1) {
+      state = SM8_wait;
+    }
+    break;
+    
+    case SM8_wait:
+    if (1) {
+      state = SM8_wait;
+    }
+    
+    default:
+    state = -1;
+    break;
+  } // Transitions
+
+  switch(state) { // State actions
+    case SM8_init:
+    break;
+    
+    case SM8_wait:
+      //check player 2 collision with player1 shock wave
+      if (check_collision(shockwave1, 1)) {
+        player2.hp -= 10;
+        destroy_projectile(shockwave1, player2.xpos, player2.ypos);
+      }
+      //check player 1 collision with player 2 shock wave
+      if (check_collision(shockwave2, 0)) {
+        player1.hp -= 10;
+        destroy_projectile(shockwave2, player1.xpos, player1.ypos);
+      }
+      break;
+    
+    default:
+      break;
+  } // State actions
+
+  SM8_State = state;
+  return state;
+}
+
+enum SM9_States { SM9_init, SM9_wait} SM9_State;
+int TickFct_p1ShockWave(int state) {
+  /*VARIABLES MUST BE DECLARED STATIC*/
+  /*e.g., static int x = 0;*/
+  static unsigned char i;
+  switch(state) { //Transitions
+    case -1:
+    state = SM9_init;
+    i = 0;
+    break;
+    
+    case SM9_init:
+    if (p1_input & SNES_A) {
+      state = SM9_wait;
+      create_projectile(shockwave1, 0);
+    }
+    else state = SM9_init;
+    break;
+    
+    case SM9_wait:
+    if (i == 61) {
+      state = SM9_init;
+      i = 0;
+    }
+    else state = SM9_wait;
+    break;
+    
+    default:
+    state = -1;
+    break;
+  } // Transitions
+
+  switch(state) { // State actions
+    case SM9_init:
+    break;
+    
+    case SM9_wait:
+    i++;
+    break;
+    
+    default:
+    break;
+  } // State actions
+
+  SM9_State = state;
+  return state;
+}
+
+enum SM10_States { SM10_init, SM10_wait} SM10_State;
+int TickFct_p2ShockWave(int state) {
+  /*VARIABLES MUST BE DECLARED STATIC*/
+  /*e.g., static int x = 0;*/
+  static unsigned char i;
+  switch(state) { //Transitions
+    case -1:
+    state = SM10_init;
+    i = 0;
+    break;
+    
+    case SM10_init:
+    if (p2_input & SNES_A) {
+      state = SM10_wait;
+      create_projectile(shockwave2, 1);
+    }
+    else state = SM10_init;
+    break;
+    
+    case SM10_wait:
+    if (i == 61) {
+      state = SM10_init;
+      i = 0;
+    }
+    else state = SM10_wait;
+    break;
+    
+    default:
+    state = -1;
+    break;
+  } // Transitions
+
+  switch(state) { // State actions
+    case SM10_init:
+    break;
+    
+    case SM10_wait:
+    i++;
+    break;
+    
+    default:
+    break;
+  } // State actions
+
+  SM10_State = state;
+  return state;
+}
+
+void TickFct_reset() {
+  if (p1_input & SNES_SL || p2_input & SNES_SL) {
+    SM1_State = -1;
+    SM2_State = -1;
+    SM3_State = -1;
+    SM4_State = -1;
+    SM5_State = -1;
+    SM6_State = -1;
+    SM7_State = -1;
+    SM8_State = -1;
+    SM9_State = -1;
+    SM10_State = -1;
+    init_players();
+    init_field();
+  }    
 }

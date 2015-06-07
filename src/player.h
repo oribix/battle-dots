@@ -11,7 +11,8 @@ struct player
   unsigned char hp;         /* health bar */
   unsigned char xpos;       /* x position on the field */
   unsigned char ypos;       /* y position on the field */
-  bool ctrl_en;             /* SNES controller enable  */
+  bool move_en;             /* movement enable  */
+  bool attack_en;           /* attack enable */
   //enum condition cond;      /* player condition */
 };
 

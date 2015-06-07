@@ -3,6 +3,7 @@
 
 #include "field.h"
 #include "player.h"
+#include "attack.h"
 #include "io.h"
 #include "scheduler.h"
 #include "timer.h"
@@ -73,6 +74,24 @@ int main() {
   //    default: break;
   //  }  
   //  delay_ms(16);
+  //}
+  
+  //PORTB = 0xFF;
+  //init_shockwave();
+  ////shockwave1[1] = 0x01;
+  ////shockwave2[1] = 0x20;
+  //while(1) {
+  //  update_hprojectile(shockwave1, RIGHT);
+  //  update_hprojectile(shockwave2, LEFT);
+  //  cleanMatrix();
+  //  readAttacks(shockwave1);
+  //  readAttacks(shockwave2);
+  //  if (check_collision(shockwave1, 1)) {
+  //    LCD_DisplayString(1, "collided");
+  //    destroy_projectile(shockwave1, player2.xpos, player2.ypos);
+  //  }
+  //  transmit_data(red[3], green[3]);
+  //  delay_ms(500);
   //}
   
   //initialize timer
