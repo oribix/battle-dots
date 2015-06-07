@@ -16,3 +16,4 @@ Scheduler.h/.c : tasks and state machines.
 
 timer.h : code given by CS120B class to help with synchronous state machines.
 
+bit.h : getBit and setBit functions
