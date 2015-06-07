@@ -1,0 +1,18 @@
+BATTLE DOTS
+
+Source file overview:
+
+bdots.h/.c : main function and initializers.
+
+attack.h/.c : attacks
+
+field.h/.c : edits the field and who owns it.
+
+io.h/.c: LCD display and LED matrix output and SNES controller input.
+
+player.h/.c : player struct and player related functions.
+
+Scheduler.h/.c : tasks and state machines.
+
+timer.h : code given by CS120B class to help with synchronous state machines.
+
